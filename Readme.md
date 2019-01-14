@@ -1,4 +1,4 @@
-# Neos Eel for HTML-safe string cropping
+# Neos Eel helper for HTML-safe string cropping
 
 [![Travis Build Status](https://travis-ci.org/punktDe/eel-htmlcrop.svg?branch=master)](https://travis-ci.org/punktDe/eel-htmlcrop) [![Latest Stable Version](https://poser.pugx.org/punktde/eel-htmlcrop/v/stable)](https://packagist.org/packages/punktde/eel-htmlcrop) [![Total Downloads](https://poser.pugx.org/punktde/eel-htmlcrop/downloads)](https://packagist.org/packages/punktde/eel-htmlcrop)
 
