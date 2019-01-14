@@ -1,0 +1,20 @@
+{
+    "description": "Neos Eel helper for cropping string html safe",
+    "type": "neos-package",
+    "name": "punktde/eel-htmlcrop",
+    "require": {
+        "neos/eel": "*",
+        "judev/php-htmltruncator": "^1.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PunktDe\\Eel\\HtmlCrop\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "PunktDe.Eel.HtmlCrop"
+        }
+    }
+}
