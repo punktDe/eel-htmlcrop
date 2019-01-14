@@ -1,0 +1,20 @@
+language: php
+matrix:
+  include:
+    - php: 7.2
+
+sudo: false
+before_install:
+  - export NEOS_TARGET_VERSION=4.0
+  - cd ..
+  - git clone https://github.com/neos/neos-base-distribution.git -b ${NEOS_TARGET_VERSION}
+  - cd neos-base-distribution
+  - composer require --no-update --no-interaction punktde/eel-htmlcrop:dev-master
+install:
+  - composer install --no-interaction
+  - cd ..
+  - rm -rf neos-base-distribution/Packages/Application/PunktDe.Eel.HtmlCrop
+  - mv eel-htmlcrop neos-base-distribution/Packages/Application/PunktDe.Eel.HtmlCrop
+  - cd neos-base-distribution
+script:
+  - bin/phpunit --colors --stop-on-failure -c Build/BuildEssentials/PhpUnit/UnitTests.xml Packages/Application/PunktDe.Eel.HtmlCrop/Tests/Unit
