@@ -42,12 +42,15 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
      */
     public function cropAtCharacter(string $html, int $chars, string $ellipsis = '…'): string
     {
+
         $options = [
             'ellipsis' => $ellipsis,
             'length_in_chars' => true
         ];
 
-        return Truncator::truncate($html, $chars, $options);
+        $truncatedHtml = Truncator::truncate($html, $chars, $options);
+
+        return is_string($truncatedHtml) ? $truncatedHtml : $html;
     }
 
     /**
