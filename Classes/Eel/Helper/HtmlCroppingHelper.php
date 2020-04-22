@@ -29,6 +29,10 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
             'length_in_chars' => false
         ];
 
+        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN)) {
+            throw new \Exception('A Fusion cache segment was found while cropping the content. (A prototype with @cache.mode=\'cached\'). Cached prototypes cannot be cropped, as we might crop inside the cache markers and with that break the cache segment.', 1587573052);
+        }
+
         return Truncator::truncate($html, $words, $options);
     }
 
@@ -47,6 +51,10 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
             'ellipsis' => $ellipsis,
             'length_in_chars' => true
         ];
+
+        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN)) {
+            throw new \Exception('A Fusion cache segment was found while cropping the content. (A prototype with @cache.mode=\'cached\'). Cached prototypes cannot be cropped, as we might crop inside the cache markers and with that break the cache segment.', 1587573052);
+        }
 
         $truncatedHtml = Truncator::truncate($html, $chars, $options);
 
