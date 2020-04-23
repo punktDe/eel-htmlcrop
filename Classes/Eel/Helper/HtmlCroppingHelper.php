@@ -38,7 +38,7 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
 
         $truncatedHtml = Truncator::truncate($html, $words, $options);
 
-        if (strlen($truncatedHtml) >= $cacheMarkerPosition) {
+        if ($cacheMarkerPosition > -1 && strlen($truncatedHtml) >= $cacheMarkerPosition) {
             throw new \Exception('A Fusion cache segment was found while cropping the content. (A prototype with @cache.mode=\'cached\'). Cached prototypes cannot be cropped, as we might crop inside the cache markers and with that break the cache segment.', 1587573052);
         }
         return $truncatedHtml;
