@@ -11,6 +11,7 @@ namespace PunktDe\Eel\HtmlCrop\Eel\Helper;
 use HtmlTruncator\InvalidHtmlException;
 use HtmlTruncator\Truncator;
 use Neos\Eel\ProtectedContextAwareInterface;
+use Neos\Fusion\Core\Cache\ContentCache;
 
 class HtmlCroppingHelper implements ProtectedContextAwareInterface
 {
@@ -29,11 +30,18 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
             'length_in_chars' => false
         ];
 
-        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) < $words) {
-            throw new \Exception('A Fusion cache segment was found while cropping the content. (A prototype with @cache.mode=\'cached\'). Cached prototypes cannot be cropped, as we might crop inside the cache markers and with that break the cache segment.', 1587573052);
+        $cacheMarkerPosition = -1;
+
+        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) !== false) {
+            $cacheMarkerPosition = mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN);
         }
 
-        return Truncator::truncate($html, $words, $options);
+        $truncatedHtml = Truncator::truncate($html, $words, $options);
+
+        if ($cacheMarkerPosition > -1 && strlen($truncatedHtml) >= $cacheMarkerPosition) {
+            throw new \Exception('A Fusion cache segment was found while cropping the content. (A prototype with @cache.mode=\'cached\'). Cached prototypes cannot be cropped, as we might crop inside the cache markers and with that break the cache segment.', 1587573052);
+        }
+        return $truncatedHtml;
     }
 
 
@@ -52,7 +60,7 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
             'length_in_chars' => true
         ];
 
-        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) < $char) {
+        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) !== false && mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) < $char) {
             throw new \Exception('A Fusion cache segment was found while cropping the content. (A prototype with @cache.mode=\'cached\'). Cached prototypes cannot be cropped, as we might crop inside the cache markers and with that break the cache segment.', 1587573052);
         }
 
