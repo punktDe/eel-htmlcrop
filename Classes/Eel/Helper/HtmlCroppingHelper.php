@@ -22,6 +22,7 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
      * @param string $ellipsis The ellipsis to show after cropping
      * @return string The cropped text
      * @throws InvalidHtmlException
+     * @throws \Exception
      */
     public function cropAtWord(string $html, int $words, string $ellipsis = '…'): string
     {
@@ -44,13 +45,13 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
         return $truncatedHtml;
     }
 
-
     /**
      * @param string $html
      * @param int $chars Crop after this amount of chars
      * @param string $ellipsis
      * @return string
      * @throws InvalidHtmlException
+     * @throws \Exception
      */
     public function cropAtCharacter(string $html, int $chars, string $ellipsis = '…'): string
     {
@@ -60,7 +61,7 @@ class HtmlCroppingHelper implements ProtectedContextAwareInterface
             'length_in_chars' => true
         ];
 
-        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) !== false && mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) < $char) {
+        if (mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) !== false && mb_strpos($html, ContentCache::CACHE_SEGMENT_START_TOKEN) < $chars) {
             throw new \Exception('A Fusion cache segment was found while cropping the content. (A prototype with @cache.mode=\'cached\'). Cached prototypes cannot be cropped, as we might crop inside the cache markers and with that break the cache segment.', 1587573052);
         }
 
