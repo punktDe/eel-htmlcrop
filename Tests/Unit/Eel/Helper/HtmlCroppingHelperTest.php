@@ -51,7 +51,7 @@ class HtmlCroppingHelperTest extends UnitTestCase
         $this->assertEquals($input, $actual);
     }
 
-    public function cropDataProvider()
+    public static function cropDataProvider()
     {
         return [
             'in div' => [
